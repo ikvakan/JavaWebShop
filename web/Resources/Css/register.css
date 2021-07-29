@@ -1,0 +1,17 @@
+/*body {
+    background-color: #E0E0E0;
+}*/
+
+.container {
+
+    margin: 50px auto;
+    background-color: #F5F5F5;
+    padding: 30px;
+    box-shadow: 5px 5px 5px #808080;
+    border-radius: 25px;
+    
+}
+label.error {
+    color:red;
+}
+

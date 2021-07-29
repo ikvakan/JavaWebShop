@@ -1,0 +1,6 @@
+
+
+#navbarNavDropdown ul > li:last-child ul{
+    right: 4px;
+    left: auto;
+}
