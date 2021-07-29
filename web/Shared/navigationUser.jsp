@@ -31,7 +31,7 @@
                     <ul class="navbar-nav ms-auto  navbar-dark bg-dark">
 
                         <li class="nav-item">
-                            <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/showProductsUsers">Proizvodi</a>
+                            <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/showAllProducts">Proizvodi</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link " href="#">Košarica</a>

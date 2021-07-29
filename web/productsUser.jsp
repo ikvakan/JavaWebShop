@@ -23,7 +23,14 @@
                 <h1 class="text-center" style='margin-top: 70px;'>Proizvodi</h1>
             </div>
             <hr>
-            <form id="" method="post" action="<%=request.getContextPath()%>/addCategory">
+            <c:if test="${msg!=null}">
+                <div class="row bg-success p-3"  >
+                    <span class="text-center ">${msg}</span>
+                </div>
+                <hr>
+
+            </c:if>
+            <form id="" method="post" action="<%=request.getContextPath()%>/showProductsByCategory">
 
                 <div class="row ">
                     <div class="col-sm-3">
@@ -44,11 +51,12 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">ID</th>
+
                                 <th scope="col">Naziv</th>
                                 <th scope="col">Kategorija</th>                            
                                 <th scope="col">Cijena</th>
                                 <th scope="col">Kratki opis</th>
+                                <th scope="col">Količina</th>
                                 <th scope="col"></th>                            
                                 <th scope="col"></th>
                             </tr>
@@ -57,18 +65,15 @@
                     <c:forEach items="${products}" var="product">
                         <tbody>
                             <tr>
-                                <th scope="row"><c:out value="${product.idProduct}"/></th>
+                                <th hidden="true" scope="row"><c:out value="${product.idProduct}"/></th>
                                 <td><c:out value="${product.name}"/></td>
                                 <td><c:out value="${product.category.name}"/></td>
                                 <td><c:out value="${product.price}"/></td>
                                 <td class="col-sm-3"><c:out value="${product.description}"/> </td>
-
+                                <td class="col-sm-1"><input class="form-control " type="number" min="1" value="1" </td>
                         <div class="row">
                             <div class="col-sm-1">
-                                <td class="col-sm-1 "><a href="showEditProduct?id=${product.idProduct}" class="btn btn-primary ">Uredi</a></td>
-                            </div>
-                            <div class="col-sm-1">
-                                <td class="col-sm-1 "><a href="deleteProduct?id=<c:out value="${product.idProduct}"/>" class="btn btn-danger ">Obriši</a></td>
+                                <td class="col-sm-2 "><a href="addToCart?id=${product.idProduct}" class="btn btn-danger ">Dodaj u košaricu</a></td>
                             </div>
                         </div>
                         </tr>

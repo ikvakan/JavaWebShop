@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface ProductRepository<T> extends Repository<Product>{
         
+    List<T> getProductByCategory(int id) throws Exception;
 }

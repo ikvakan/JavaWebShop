@@ -34,9 +34,9 @@ public class ProductRepositoryImpl implements ProductRepository<Product> {
 
     private static final String ADD_PRODUCT = "INSERT INTO PRODUCTS (Name,Price,Description,CategoryId) VALUES (?,?,?,?)";
     private static final String SELECT_PRODUCT_CATEGORY = "{ CALL getProductWithCategory }";
-    //private static final String SELECT_PRODUCT_BY_ID = " select p.IdProduct,p.Name,p.Price,p.Description,c.* from Products"
-      //      + " as p inner join Category as c on p.CategoryId=c.IdCategorywhere p.IdProduct=";
+ 
     private static final String SELECT_PRODUCT_BY_ID = "{ CALL getProductById (?)  }";
+    private static final String SELECT_PRODUCT_BY_CATEGORY = "{ CALL getProductsByCategory (?)  }";
 
     private static final String DELETE_PRODUCT = "DELETE FROM PRODUCTS WHERE IdProduct=?";  //PROCEDURA ????
     private static final String UPDATE_PRODUCT = "UPDATE PRODUCTS SET Name=?,Price=?,Description=?,CategoryId=? WHERE IdProduct=? ";
@@ -143,5 +143,28 @@ public class ProductRepositoryImpl implements ProductRepository<Product> {
             return null;
         }
 
+    }
+
+    @Override
+    public List<Product> getProductByCategory(int id) throws SQLException {
+        DataSource dataSource = DataSourceSingleton.getInstance();
+        List<Product> products= new ArrayList<>();
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(SELECT_PRODUCT_BY_CATEGORY)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    Category category= new Category(rs.getInt(ID_CATEGORY), rs.getString(CATEGORY));
+                    products.add( new Product(rs.getInt(ID_PRODUCT),
+                            rs.getString(NAME),
+                            rs.getBigDecimal(PRICE).setScale(2,RoundingMode.HALF_UP),
+                            rs.getString(DESCRIPTION),
+                            category)
+                    );}
+            }
+
+            return products;
+        }
     }
 }
