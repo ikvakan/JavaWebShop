@@ -68,7 +68,7 @@
                             <tr>
                                 <td><c:out value="${product.name}"/></td>
                                 <td><c:out value="${product.category.name}"/></td>
-                                <td><c:out value="${product.price}"/></td>
+                                <td><c:out value="${product.price} kn"/></td>
                                 <td class="col-sm-3"><c:out value="${product.description}"/> </td>
                                 <td  class="col-sm-1"><input class="form-control " type="number" min="1" value="1" name="quantity" /> </td>
                         <div class="row">

@@ -11,76 +11,83 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+              rel="stylesheet" 
+              crossorigin="anonymous"/>
         <title>JSP Page</title>
     </head>
     <body>
         <%@include file="../Shared/navigationUser.jsp" %>
         <div class="container">
             <div class="row ">
-                <h1 class="text-center" style='margin-top: 70px;'>Proizvodi</h1>
+                <h1 class="text-center" style='margin-top: 70px;'>Moja košarica</h1>
             </div>
             <hr>
-            
-                <div class="row bg-success p-3"  >
-                    <span class="text-center "><b>${msg}</b></span>
-                </div>
-                <hr>
 
-            <form id="" method="post" action="<%=request.getContextPath()%>/">
+            <c:choose>
+                <c:when test="${not empty cartItems}">
+                    <div class="row" style="margin: 30px;">
 
-                <div class="row ">
-                    <div class="col-sm-3">
-                        <select class="form-select"  name="category" for="category" >
-                            <c:forEach items="${categories}" var="category">
-                                <option id="category" value="${category.idCategory}">${category.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="col-sm-2">
-                        <input type="submit" class="btn btn-primary" value="Odaberi kategoriju"/>
-                    </div>
-                </div>
-            </form>
-
-            <div class="row" style="margin-top: 30px;">
-                
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-
-                                <th scope="col">Naziv</th>
-                                <th scope="col">Kategorija</th>                            
-                                <th scope="col">Cijena</th>
-                                <th scope="col">Kratki opis</th>
-                                <th scope="col">Količina</th>
-                                <th scope="col">Ukupno</th>                            
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                    
-                    <c:forEach items="${productsInCart}" var="cartItem">
-                        <form action="" method="post">
-                            <tbody>
+                        <table class="table">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td><c:out value="${cartItem.name}"/></td>
-                                    <td><c:out value="${cartItem.product.category.name}"/></td>
-                                    <td><c:out value="${cartItem.product.price}"/></td>
-                                    <td class="col-sm-3"><c:out value="${product.description}"/> </td>
-                                    <td  class="col-sm-1"><input class="form-control " type="number" min="1" value="${cartItem.quantity}" name="quantity" /> </td>
-                                    <td class="col-sm-3"><c:out value="${cartItem.total}"/> </td>
 
-                            <div class="row">
-                                <div class="col-sm-1">
-                                  <!--  <td class="col-sm-2 "><a href="addToCart?id=${product.idProduct}" class="btn btn-danger ">Dodaj u košaricu</a></td> -->
-                                    <td class="col-sm-2"> <input type="submit" class=" btn btn-danger" value="Ažuriraj" /> </td> 
-                                </div>
+                                    <th scope="col">Naziv</th>
+                                    <th scope="col">Kategorija</th>                            
+                                    <th scope="col">Cijena</th>
+                                    <th scope="col">Količina</th>
+                                    <th scope="col">Ukupno</th>                            
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+
+                                </tr>
+                            </thead>
+
+                            <c:forEach items="${cartItems}" var="cartItem">
+                                <form action="" method="post">
+                                    <tbody>
+                                        <tr>
+                                            <td><c:out value="${cartItem.product.name}"/></td>
+                                            <td><c:out value="${cartItem.product.category.name}"/></td>
+                                            <td><c:out value="${cartItem.product.price} kn"/></td>
+                                            <td  class="col-sm-1"><input class="form-control " type="number" min="1" value="${cartItem.quantity}" name="quantity" /> </td>
+                                            <td class=""><c:out value="${cartItem.total} kn"/> </td>
+
+                                    <div class="row">
+                                        <div class="col-sm-1">
+                                          <!--  <td class="col-sm-2 "><a href="addToCart?id=${product.idProduct}" class="btn btn-danger ">Dodaj u košaricu</a></td> -->
+                                            <td class="col-sm-1"> <input type="submit" class=" btn btn-primary" value="Ažuriraj" /> </td> 
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <td class="col-sm-1"> <input type="submit" class=" btn btn-danger" value="Ukloni" /> </td> 
+                                        </div>
+                                    </div>
+                                    </tr>
+                                    </tbody>
+                                </form>
+                            </c:forEach>
+
+                        </table>
+                    </div>
+
+                    <hr>
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <span ><b>ZA PLATITI: <span class="text-danger">${totalPrice} kn</span> </b></span>
                             </div>
-                            </tr>
-                            </tbody>
-                        </form>
-                    </c:forEach>
-                </table>
-            </div>
+                            <div class="col-sm-2">
+                                <input style="width: 250px;"  type="submit" class="btn btn-success  " value="Naplata"/>
+                            </div>
+                        </div>
+                    </form>
+                </c:when>
+                <c:otherwise>
+                    <div>
+                        <h1 class="text-center text-danger">Nema proizvoda u košarici</h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
 
         </div>
 

@@ -14,6 +14,7 @@ import hr.algebra.model.Category;
 import hr.algebra.model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.PageContext;
 
 /**
  *
@@ -116,19 +118,37 @@ public class UserProductServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         try {
-          
-            
+
             Product product = productRepo.getEntityById(idProduct);
             List<CartItem> cartItems = new ArrayList<>();
             CartItem cartItem = new CartItem(quantity, product);
 
             if (session.getAttribute("productsInCart") == null) {
+
                 cartItems.add(cartItem);
                 session.setAttribute("productsInCart", cartItems);
             } else {
                 cartItems = (List<CartItem>) session.getAttribute("productsInCart");
+
+                List<CartItem> cartItemsFilter = new ArrayList<>();
+
+                for (CartItem item : cartItems) {
+                    if (item.getProduct().getIdProduct() == idProduct) {
+
+                        int quant = item.getQuantity() + quantity;
+                        cartItem = new CartItem(quant, product);
+                        cartItems.remove(item);
+                        cartItemsFilter.add(cartItem);
+                        session.setAttribute("productsInCart", cartItemsFilter);
+
+                        break;
+                    }
+
+                }
                 cartItems.add(cartItem);
+
                 session.setAttribute("productsInCart", cartItems);
+
             }
 
             String msg = "Proizvod: " + product.getName() + " je dodan u košaricu";
@@ -145,7 +165,30 @@ public class UserProductServlet extends HttpServlet {
 
     private void showCart(HttpServletRequest request, HttpServletResponse response) {
 
-       
+        HttpSession session = request.getSession();
+
+        if (session.getAttribute("productsInCart") != null) {
+            List<CartItem> cartItems = (List<CartItem>) session.getAttribute("productsInCart");
+
+            int totalPrice = 0;
+            for (CartItem cartItem : cartItems) {
+                totalPrice += cartItem.getTotal().intValue();
+            }
+
+            request.setAttribute("cartItems", cartItems);
+            request.setAttribute("totalPrice", new BigDecimal(totalPrice));
+
+        }
+
+        try {
+
+            RequestDispatcher rd = request.getRequestDispatcher("/cart.jsp");
+            rd.forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(UserProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
