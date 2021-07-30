@@ -1,6 +1,6 @@
 <%-- 
-    Document   : productsUser
-    Created on : 29.07.2021., 14:45:15
+    Document   : cart
+    Created on : 30.07.2021., 01:17:31
     Author     : IgorKvakan
 --%>
 
@@ -11,9 +11,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-              rel="stylesheet" 
-              crossorigin="anonymous"/>
         <title>JSP Page</title>
     </head>
     <body>
@@ -23,14 +20,13 @@
                 <h1 class="text-center" style='margin-top: 70px;'>Proizvodi</h1>
             </div>
             <hr>
-            <c:if test="${productAddedMsg!=null}">
+            
                 <div class="row bg-success p-3"  >
-                    <span class="text-center "><b>${productAddedMsg}</b></span>
+                    <span class="text-center "><b>${msg}</b></span>
                 </div>
                 <hr>
 
-            </c:if>
-            <form id="" method="post" action="<%=request.getContextPath()%>/showProductsByCategory">
+            <form id="" method="post" action="<%=request.getContextPath()%>/">
 
                 <div class="row ">
                     <div class="col-sm-3">
@@ -47,38 +43,40 @@
             </form>
 
             <div class="row" style="margin-top: 30px;">
-                <c:if test="${not empty products }">
+                
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                
+
                                 <th scope="col">Naziv</th>
                                 <th scope="col">Kategorija</th>                            
                                 <th scope="col">Cijena</th>
                                 <th scope="col">Kratki opis</th>
                                 <th scope="col">Količina</th>
-                                <th scope="col"></th>                            
+                                <th scope="col">Ukupno</th>                            
                                 <th scope="col"></th>
                             </tr>
                         </thead>
-                    </c:if>
-                    <c:forEach items="${products}" var="product">
-                        <form action="addToCart?id=${product.idProduct}" method="post">
-                        <tbody>
-                            <tr>
-                                <td><c:out value="${product.name}"/></td>
-                                <td><c:out value="${product.category.name}"/></td>
-                                <td><c:out value="${product.price}"/></td>
-                                <td class="col-sm-3"><c:out value="${product.description}"/> </td>
-                                <td  class="col-sm-1"><input class="form-control " type="number" min="1" value="1" name="quantity" /> </td>
-                        <div class="row">
-                            <div class="col-sm-1">
-                              <!--  <td class="col-sm-2 "><a href="addToCart?id=${product.idProduct}" class="btn btn-danger ">Dodaj u košaricu</a></td> -->
-                                <td class="col-sm-2"> <input type="submit" class=" btn btn-danger" value="Dodaj u košaricu" /> </td> 
+                    
+                    <c:forEach items="${productsInCart}" var="cartItem">
+                        <form action="" method="post">
+                            <tbody>
+                                <tr>
+                                    <td><c:out value="${cartItem.name}"/></td>
+                                    <td><c:out value="${cartItem.product.category.name}"/></td>
+                                    <td><c:out value="${cartItem.product.price}"/></td>
+                                    <td class="col-sm-3"><c:out value="${product.description}"/> </td>
+                                    <td  class="col-sm-1"><input class="form-control " type="number" min="1" value="${cartItem.quantity}" name="quantity" /> </td>
+                                    <td class="col-sm-3"><c:out value="${cartItem.total}"/> </td>
+
+                            <div class="row">
+                                <div class="col-sm-1">
+                                  <!--  <td class="col-sm-2 "><a href="addToCart?id=${product.idProduct}" class="btn btn-danger ">Dodaj u košaricu</a></td> -->
+                                    <td class="col-sm-2"> <input type="submit" class=" btn btn-danger" value="Ažuriraj" /> </td> 
+                                </div>
                             </div>
-                        </div>
-                        </tr>
-                        </tbody>
+                            </tr>
+                            </tbody>
                         </form>
                     </c:forEach>
                 </table>

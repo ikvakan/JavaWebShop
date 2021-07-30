@@ -34,7 +34,7 @@
                             <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/showAllProducts">Proizvodi</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">Košarica</a>
+                            <a class="nav-link " href="showCart">Košarica</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link " href="#">Moje kupnje</a>

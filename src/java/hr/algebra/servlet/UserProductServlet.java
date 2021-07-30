@@ -9,6 +9,7 @@ import hr.algebra.dal.interfaces.CategoryRepository;
 import hr.algebra.dal.interfaces.ProductRepository;
 import hr.algebra.dal.repository.CategoryRepositoryImpl;
 import hr.algebra.dal.repository.ProductRepositoryImpl;
+import hr.algebra.model.CartItem;
 import hr.algebra.model.Category;
 import hr.algebra.model.Product;
 import java.io.IOException;
@@ -29,7 +30,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author IgorKvakan
  */
-@WebServlet(urlPatterns = {"/showAllProducts", "/showProductsByCategory", "/addToCart"})
+@WebServlet(urlPatterns = {"/showAllProducts", "/showProductsByCategory", "/addToCart", "/showCart"})
 public class UserProductServlet extends HttpServlet {
 
     ProductRepository<Product> productRepo;
@@ -53,6 +54,9 @@ public class UserProductServlet extends HttpServlet {
                 break;
             case "/addToCart":
                 addToCart(request, response);
+                break;
+            case "/showCart":
+                showCart(request, response);
                 break;
         }
 
@@ -106,26 +110,29 @@ public class UserProductServlet extends HttpServlet {
 
     private void addToCart(HttpServletRequest request, HttpServletResponse response) {
 
-        
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
         int idProduct = Integer.parseInt(request.getParameter("id"));
 
         HttpSession session = request.getSession();
 
         try {
+          
+            
             Product product = productRepo.getEntityById(idProduct);
-            List<Product> products = new ArrayList<>();
+            List<CartItem> cartItems = new ArrayList<>();
+            CartItem cartItem = new CartItem(quantity, product);
 
             if (session.getAttribute("productsInCart") == null) {
-                products.add(product);
-                session.setAttribute("productsInCart", products);
+                cartItems.add(cartItem);
+                session.setAttribute("productsInCart", cartItems);
             } else {
-                products = (List<Product>) session.getAttribute("productsInCart");
-                products.add(product);
-                session.setAttribute("productsInCart", products);
+                cartItems = (List<CartItem>) session.getAttribute("productsInCart");
+                cartItems.add(cartItem);
+                session.setAttribute("productsInCart", cartItems);
             }
 
             String msg = "Proizvod: " + product.getName() + " je dodan u košaricu";
-            request.setAttribute("msg", msg);
+            request.setAttribute("productAddedMsg", msg);
 
             RequestDispatcher rd = request.getRequestDispatcher("showAllProducts");
             rd.forward(request, response);
@@ -133,6 +140,12 @@ public class UserProductServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(UserProductServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+    }
+
+    private void showCart(HttpServletRequest request, HttpServletResponse response) {
+
+       
 
     }
 

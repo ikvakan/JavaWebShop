@@ -11,36 +11,35 @@ import java.math.BigDecimal;
  *
  * @author IgorKvakan
  */
-public class CartItem {
+public class CartItem  {
 
     private int idCartItem;
-    private Product product;
     private int quantity;
-    private BigDecimal price;
+    private BigDecimal total;
+    private Product product;
 
     public CartItem() {
-        product = new Product();
     }
 
-    public CartItem(int idCartItem, Product product, int quantity, BigDecimal price) {
-        this.idCartItem = idCartItem;
-        this.product = product;
+    public CartItem(int quantity, Product product) {
         this.quantity = quantity;
-        this.price = price;
-    }
-
-    public CartItem(Product product, int quantity, BigDecimal price) {
         this.product = product;
-        this.quantity = quantity;
-        this.price = price;
+        this.total=calculateTotal();
     }
 
-    public int getIdCartItem() {
-        return idCartItem;
-    }
-
-    public void setIdCartItem(int idCartItem) {
+    
+    
+    public CartItem(int idCartItem, int quantity, BigDecimal total, Product product) {
         this.idCartItem = idCartItem;
+        this.quantity = quantity;
+        this.total = calculateTotal();
+        this.product = product;
+    }
+
+    public CartItem(int quantity, BigDecimal total, Product product) {
+        this.quantity = quantity;
+        this.total = total;
+        this.product = product;
     }
 
     public Product getProduct() {
@@ -51,6 +50,15 @@ public class CartItem {
         this.product = product;
     }
 
+
+    public int getIdCartItem() {
+        return idCartItem;
+    }
+
+    public void setIdCartItem(int idCartItem) {
+        this.idCartItem = idCartItem;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -59,12 +67,18 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setTotal(BigDecimal total) {
+        this.total =total;
     }
-
+    
+    private  BigDecimal calculateTotal(){
+        
+       BigDecimal subTotal=BigDecimal.valueOf(this.quantity).multiply(this.product.getPrice());
+       return subTotal;
+    }
+    
 }
