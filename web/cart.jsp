@@ -44,7 +44,6 @@
                             </thead>
 
                             <c:forEach items="${cartItems}" var="cartItem">
-                                <form action="removeCartItem?id=${cartItem.product.idProduct}" method="post">
                                     <tbody>
                                         <tr>
                                             <td><c:out value="${cartItem.product.name}"/></td>
@@ -55,16 +54,19 @@
 
                                     <div class="row">
                                         <div class="col-sm-1">
-                                          <!--  <td class="col-sm-2 "><a href="addToCart?id=${product.idProduct}" class="btn btn-danger ">Dodaj u košaricu</a></td> -->
-                                            <td class="col-sm-1"> <input type="submit" class=" btn btn-primary" value="Ažuriraj" /> </td> 
+                                          < <td class="col-sm-1 "><a href="updateCart?id=${cartItem.product.idProduct}&quantity=${cartItem.quantity}" class="btn btn-primary ">
+                                                  Ažuriraj</a>
+                                          </td> 
+                                           
                                         </div>
                                         <div class="col-sm-1">
-                                            <td class="col-sm-1"> <input type="submit" class=" btn btn-danger" value="Ukloni" /> </td> 
+                                          <!--  <td class="col-sm-1"> <input type="submit" class=" btn btn-danger" value="Ukloni" /> </td> -->
+                                              <td class="col-sm-1 "><a href="removeCartItem?id=${cartItem.product.idProduct}" class="btn btn-danger ">Ukloni</a></td>
                                         </div>
                                     </div>
                                     </tr>
                                     </tbody>
-                                </form>
+                                
                             </c:forEach>
 
                         </table>
