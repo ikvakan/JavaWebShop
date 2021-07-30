@@ -44,7 +44,7 @@
                             </thead>
 
                             <c:forEach items="${cartItems}" var="cartItem">
-                                <form action="" method="post">
+                                <form action="removeCartItem?id=${cartItem.product.idProduct}" method="post">
                                     <tbody>
                                         <tr>
                                             <td><c:out value="${cartItem.product.name}"/></td>
