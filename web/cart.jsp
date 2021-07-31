@@ -25,7 +25,7 @@
             <hr>
 
             <c:choose>
-                <c:when test="${not empty cartItems}">
+                <c:when test="${not empty cartItems_request}">
                     <div class="row" style="margin: 30px;">
 
                         <table class="table">
@@ -43,31 +43,36 @@
                                 </tr>
                             </thead>
 
-                            <c:forEach items="${cartItems}" var="cartItem">
+                            <c:forEach items="${cartItems_request}" var="cartItem">
+                                <form action="updateCart?id=${cartItem.product.idProduct}" method="post">
                                     <tbody>
                                         <tr>
                                             <td><c:out value="${cartItem.product.name}"/></td>
                                             <td><c:out value="${cartItem.product.category.name}"/></td>
                                             <td><c:out value="${cartItem.product.price} kn"/></td>
-                                            <td  class="col-sm-1"><input class="form-control " type="number" min="1" value="${cartItem.quantity}" name="quantity" /> </td>
+                                            <td name="quantity" class="col-sm-1"><input class="form-control " type="number" min="1" value="${cartItem.quantity}" name="quantity" /> </td>
                                             <td class=""><c:out value="${cartItem.total} kn"/> </td>
 
                                     <div class="row">
                                         <div class="col-sm-1">
-                                          < <td class="col-sm-1 "><a href="updateCart?id=${cartItem.product.idProduct}&quantity=${cartItem.quantity}" class="btn btn-primary ">
-                                                  Ažuriraj</a>
-                                          </td> 
-                                           
+                                          <!--  < <td class="col-sm-1 "><a href="updateCart?id=${cartItem.product.idProduct}&quantity=${cartItem.quantity}" class="btn btn-primary ">
+                                                    Ažuriraj</a>
+                                            </td> -->
+                                            <td class="col-sm-1" >  <input type="submit" class="btn btn-primary" value="Ažuriraj"/> </td>
+                                            </form>
+                                                    
                                         </div>
                                         <div class="col-sm-1">
-                                          <!--  <td class="col-sm-1"> <input type="submit" class=" btn btn-danger" value="Ukloni" /> </td> -->
-                                              <td class="col-sm-1 "><a href="removeCartItem?id=${cartItem.product.idProduct}" class="btn btn-danger ">Ukloni</a></td>
+                                            <!--  <td class="col-sm-1"> <input type="submit" class=" btn btn-danger" value="Ukloni" /> </td> -->
+                                            <td class="col-sm-1 "><a href="removeCartItem?id=${cartItem.product.idProduct}" class="btn btn-danger ">Ukloni</a></td>
                                         </div>
+
+
                                     </div>
                                     </tr>
                                     </tbody>
-                                
-                            </c:forEach>
+
+                                </c:forEach>
 
                         </table>
                     </div>

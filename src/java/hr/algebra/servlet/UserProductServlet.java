@@ -64,7 +64,7 @@ public class UserProductServlet extends HttpServlet {
                 removeCartItem(request, response);
                 break;
             case "/updateCart":
-                updateCart(request, response);
+                updateCartItem(request, response);
                 break;
         }
 
@@ -129,12 +129,12 @@ public class UserProductServlet extends HttpServlet {
             List<CartItem> cartItems = new ArrayList<>();
             CartItem cartItem = new CartItem(quantity, product);
 
-            if (session.getAttribute("productsInCart") == null) {
+            if (session.getAttribute("productsInCart_session") == null) {
 
                 cartItems.add(cartItem);
-                session.setAttribute("productsInCart", cartItems);
+                session.setAttribute("productsInCart_session", cartItems);
             } else {
-                cartItems = (List<CartItem>) session.getAttribute("productsInCart");
+                cartItems = (List<CartItem>) session.getAttribute("productsInCart_session");
 
                 List<CartItem> cartItemsFilter = new ArrayList<>();
 
@@ -145,7 +145,7 @@ public class UserProductServlet extends HttpServlet {
                         cartItem = new CartItem(quant, product);
                         cartItems.remove(item);
                         cartItemsFilter.add(cartItem);
-                        session.setAttribute("productsInCart", cartItemsFilter);
+                        session.setAttribute("productsInCart_session", cartItemsFilter);
 
                         break;
                     }
@@ -153,7 +153,7 @@ public class UserProductServlet extends HttpServlet {
                 }
                 cartItems.add(cartItem);
 
-                session.setAttribute("productsInCart", cartItems);
+                session.setAttribute("productsInCart_session", cartItems);
 
             }
 
@@ -173,15 +173,15 @@ public class UserProductServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("productsInCart") != null) {
-            List<CartItem> cartItems = (List<CartItem>) session.getAttribute("productsInCart");
+        if (session.getAttribute("productsInCart_session") != null) {
+            List<CartItem> cartItems = (List<CartItem>) session.getAttribute("productsInCart_session");
 
             int totalPrice = 0;
             for (CartItem cartItem : cartItems) {
                 totalPrice += cartItem.getTotal().intValue();
             }
 
-            request.setAttribute("cartItems", cartItems);
+            request.setAttribute("cartItems_request", cartItems);
             request.setAttribute("totalPrice", new BigDecimal(totalPrice));
 
         }
@@ -204,7 +204,7 @@ public class UserProductServlet extends HttpServlet {
         HttpSession session = request.getSession();
         try {
 
-            List<CartItem> listCartItem = (List<CartItem>) session.getAttribute("productsInCart");
+            List<CartItem> listCartItem = (List<CartItem>) session.getAttribute("productsInCart_session");
 
             for (CartItem item : listCartItem) {
                 if (item.getProduct().getIdProduct() == idProduct) {
@@ -213,7 +213,7 @@ public class UserProductServlet extends HttpServlet {
                 }
             }
 
-            request.setAttribute("productsInCart", listCartItem);
+            request.setAttribute("productsInCart_session", listCartItem);
 
             RequestDispatcher rd = request.getRequestDispatcher("showCart");
             rd.forward(request, response);
@@ -225,12 +225,38 @@ public class UserProductServlet extends HttpServlet {
 
     }
 
-    private void updateCart(HttpServletRequest request, HttpServletResponse response) {
-        int idProduct=Integer.parseInt(request.getParameter("id"));
-        int quantity=Integer.parseInt(request.getParameter("quantity"));
+    private void updateCartItem(HttpServletRequest request, HttpServletResponse response) {
+        int idProduct = Integer.parseInt(request.getParameter("id"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+
         
+        HttpSession session=request.getSession();
         
-        
+        try {
+
+            
+            List<CartItem> cartItems = (List<CartItem>) session.getAttribute("productsInCart_session");
+
+            for (CartItem cartItem : cartItems) {
+                
+                if (cartItem.getProduct().getIdProduct()==idProduct) {
+                    
+                    cartItems.remove(cartItem);
+                    CartItem item=new CartItem(quantity, cartItem.getProduct());
+                    cartItems.add(item);
+                    break;
+                }
+            }
+            
+            request.setAttribute("cartItems_request", cartItems);
+            
+            RequestDispatcher rd = request.getRequestDispatcher("showCart");
+            rd.forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(UserProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
