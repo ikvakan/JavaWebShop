@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -29,7 +31,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav ms-auto  navbar-dark bg-dark">
-
+                        <c:if test="${user!= null}">
+                            <li class="nav-item">
+                                <a style="color: #ffff00" class="nav-link " href="#">Dobro došao, ${user.userName}</a>
+                            </li>
+                        </c:if>
                         <li class="nav-item">
                             <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/showAllProducts">Proizvodi</a>
                         </li>
@@ -37,7 +43,7 @@
                             <a class="nav-link " href="showCart">Košarica</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">Moje kupnje</a>
+                            <a class="nav-link " href="MyOrders">Moje kupnje</a>
                         </li>
                         <li class="nav-item dropdown ">
                             <a class="nav-link  dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -47,9 +53,10 @@
                                 <li><a class="dropdown-item" href="loginForm.jsp">Login</a></li>
                                 <li><a class="dropdown-item" href="registerForm.jsp">Registracija</a></li>
                                 <li><a class="dropdown-item" href="<%=request.getContextPath()%>/Admin/homeAdmin.jsp">Za admnistratore</a></li>
-
+                                <li><a class="dropdown-item" href="Logout">Logout</a></li>
                             </ul>
                         </li>
+
                     </ul>
                 </div>
             </div>

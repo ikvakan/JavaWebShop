@@ -162,8 +162,7 @@ public class CategoryServlet extends HttpServlet {
 
             response.sendRedirect("Category");
 
-//            RequestDispatcher dispacher = request.getRequestDispatcher("Admin/addCategory.jsp");
-//            dispacher.forward(request, response);
+
         } catch (Exception ex) {
             Logger.getLogger(CategoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -173,15 +172,9 @@ public class CategoryServlet extends HttpServlet {
     private void showEditCategory(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
 
-        //Category category = new Category();
+       
         try {
-//            List<Category> list = repo.getEntity();
-//            for (Category item : list) {
-//                if (item.getIdCategory() == id) {
-//                    category = item;
-//                    break;
-//                }
-//            }
+
             Category category = categoryRepo.getEntityById(id);
 
             request.setAttribute("category", category);

@@ -9,6 +9,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+              rel="stylesheet" 
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+              crossorigin="anonymous">
+        <script  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" 
+                integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" 
+        crossorigin="anonymous"></script>
+        <link href="Resources/Css/login.css" rel="stylesheet" type="text/css"/>
         <title>JSP Page</title>
     </head>
     <body>
@@ -18,10 +27,10 @@
                     <h1 class="text-center text-muted">Prijava</h1>
                 </div>
                 <div class="form-group">
-                    <form id="registerForm" method="post" action="LoginServlet" >
+                    <form id="registerForm" method="post" action="Login" >
                         <div >
                             <label class="text-muted" style="font-weight: bold;" for="txtUserName">Korisničko ime</label>
-                            <input type="text" class="form-control" id="txtUserName" name="userName"/>
+                            <input type="text" class="form-control" id="txtUserName" name="username"/>
                         </div>
 
                         <div>

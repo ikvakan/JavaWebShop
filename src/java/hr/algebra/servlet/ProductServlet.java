@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author IgorKvakan
  */
 @WebServlet(urlPatterns = {"/addProduct", "/deleteProduct", "/updateProduct", "/listProduct", "/showEditProduct", "/showProduct"})
+
 public class ProductServlet extends HttpServlet {
 
     ProductRepository<Product> productRepo;
@@ -120,7 +122,14 @@ public class ProductServlet extends HttpServlet {
 
         try {
             productRepo.deleteEntity(idProduct);
-            response.sendRedirect("Product");
+            //response.sendRedirect("Product");
+            
+            
+            List<Product> products = productRepo.getEntity();
+            request.setAttribute("product_list", products);
+
+            RequestDispatcher rd = request.getRequestDispatcher("Admin/productsAdmin.jsp");
+            rd.forward(request, response);
 
         } catch (Exception ex) {
             Logger.getLogger(ProductServlet.class.getName()).log(Level.SEVERE, null, ex);

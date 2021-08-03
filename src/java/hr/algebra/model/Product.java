@@ -5,14 +5,16 @@
  */
 package hr.algebra.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  *
  * @author IgorKvakan
  */
-public class Product {
+public class Product implements Serializable{
 
+    private static final long serialVersionUID = 2L;
     private int IdProduct;
     private String name;
     private BigDecimal price;

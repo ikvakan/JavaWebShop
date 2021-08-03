@@ -36,7 +36,7 @@
                             <a class="nav-link " href="#">Narudžbe</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">Korisnici</a>
+                            <a class="nav-link " href="<%=request.getContextPath()%>/Users">Korisnici</a>
                         </li>
                       
                         <li class="nav-item" >

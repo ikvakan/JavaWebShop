@@ -3,6 +3,17 @@
     <welcome-file-list>
         <welcome-file>home.jsp</welcome-file>
     </welcome-file-list>
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>hr.algebra.filters.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/User/*</url-pattern>
+        <url-pattern>/Checkout</url-pattern>
+        <url-pattern>/cashOnDelivery</url-pattern>
+        <url-pattern>/MyOrders</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>hr.algebra.servlet.RegisterServlet</servlet-class>
@@ -26,6 +37,18 @@
     <servlet>
         <servlet-name>UserProductServlet</servlet-name>
         <servlet-class>hr.algebra.servlet.UserProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UsersServlet</servlet-name>
+        <servlet-class>hr.algebra.servlet.UsersServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>hr.algebra.servlet.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyOrdersServlet</servlet-name>
+        <servlet-class>hr.algebra.servlet.MyOrdersServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
@@ -51,6 +74,18 @@
         <servlet-name>UserProductServlet</servlet-name>
         <url-pattern>/UserProduct</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UsersServlet</servlet-name>
+        <url-pattern>/Users</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/Checkout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyOrdersServlet</servlet-name>
+        <url-pattern>/MyOrders</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -60,6 +95,17 @@
         <web-resource-collection>
             <web-resource-name>Security - admin</web-resource-name>
             <url-pattern>/Admin/*</url-pattern>
+            <url-pattern>/showProduct</url-pattern>
+            <url-pattern>/addProduct</url-pattern>
+            <url-pattern>/deleteProduct</url-pattern>
+            <url-pattern>/updateProduct</url-pattern>
+            <url-pattern>/listProduct</url-pattern>
+            <url-pattern>/showEditProduct</url-pattern>
+            <url-pattern>/addCategory</url-pattern>
+            <url-pattern>/deleteCategory</url-pattern>
+            <url-pattern>/updateCategory</url-pattern>
+            <url-pattern>/listCategory</url-pattern>
+            <url-pattern>/showEditCategory</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>

@@ -31,7 +31,6 @@
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
-
                                     <th scope="col">Naziv</th>
                                     <th scope="col">Kategorija</th>                            
                                     <th scope="col">Cijena</th>
@@ -39,10 +38,8 @@
                                     <th scope="col">Ukupno</th>                            
                                     <th scope="col"></th>
                                     <th scope="col"></th>
-
                                 </tr>
                             </thead>
-
                             <c:forEach items="${cartItems_request}" var="cartItem">
                                 <form action="updateCart?id=${cartItem.product.idProduct}" method="post">
                                     <tbody>
@@ -50,44 +47,51 @@
                                             <td><c:out value="${cartItem.product.name}"/></td>
                                             <td><c:out value="${cartItem.product.category.name}"/></td>
                                             <td><c:out value="${cartItem.product.price} kn"/></td>
-                                            <td name="quantity" class="col-sm-1"><input class="form-control " type="number" min="1" value="${cartItem.quantity}" name="quantity" /> </td>
+                                            <td name="quantity" class="col-sm-1">
+                                                <input class="form-control " type="number" min="1" value="${cartItem.quantity}" name="quantity" /> 
+                                            </td>
                                             <td class=""><c:out value="${cartItem.total} kn"/> </td>
-
                                     <div class="row">
                                         <div class="col-sm-1">
-                                          <!--  < <td class="col-sm-1 "><a href="updateCart?id=${cartItem.product.idProduct}&quantity=${cartItem.quantity}" class="btn btn-primary ">
-                                                    Ažuriraj</a>
-                                            </td> -->
-                                            <td class="col-sm-1" >  <input type="submit" class="btn btn-primary" value="Ažuriraj"/> </td>
+                                            <td class="col-sm-1" >
+                                                <input type="submit" class="btn btn-primary" value="Ažuriraj"/>
+                                            </td>
                                             </form>
-                                                    
                                         </div>
                                         <div class="col-sm-1">
-                                            <!--  <td class="col-sm-1"> <input type="submit" class=" btn btn-danger" value="Ukloni" /> </td> -->
                                             <td class="col-sm-1 "><a href="removeCartItem?id=${cartItem.product.idProduct}" class="btn btn-danger ">Ukloni</a></td>
                                         </div>
-
-
                                     </div>
                                     </tr>
                                     </tbody>
 
                                 </c:forEach>
+                                <tr>
 
+                                    <td><b>ZA PLATITI: <span class="text-danger" >${totalPrice} kn</span></b></td>
+
+                                </tr>
                         </table>
                     </div>
 
-                    <hr>
-                    <form>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <span ><b>ZA PLATITI: <span class="text-danger">${totalPrice} kn</span> </b></span>
+                
+
+                    <div class="row form-group">
+                        
+                        <div class="col-sm-1">
+                            <span ><b>NAPLATA:</b> </span>
+                        </div>
+                        <div class="btn-group col-sm-4">
+                            <div class="col">
+                              <!--  <input style="width: 250px; margin-right: 10px;"  type="submit" class="btn btn-success " value="Pouzeće"/> -->
+                                <a href="cashOnDelivery" style="width: 250px; margin-right: 10px;"   class="btn btn-success "  >Pouzeće</a>
                             </div>
-                            <div class="col-sm-2">
-                                <input style="width: 250px;"  type="submit" class="btn btn-success  " value="Naplata"/>
+                            <div class="col">
+                                <input style="width: 250px;"  type="submit" class="btn btn-primary " value="Paypal"/>
                             </div>
                         </div>
-                    </form>
+                    </div>
+
                 </c:when>
                 <c:otherwise>
                     <div>

@@ -5,6 +5,7 @@
  */
 package hr.algebra.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -12,8 +13,9 @@ import java.util.Date;
  *
  * @author IgorKvakan
  */
-public class User {
+public class User implements Serializable{
 
+    private static final long serialVersionUID = 3L;
     private int idUser;
     private String userName;
     private String name;
@@ -26,6 +28,11 @@ public class User {
     private String ipAdress;
     //private boolean isAdmin;
 
+    public User() {
+    }
+
+    
+    
     public User(int idUser, String userName, String name, String surname, String password, String email, String adress, String city, LocalDate regDate, String ipAdress) {
         this.idUser = idUser;
         this.userName = userName;

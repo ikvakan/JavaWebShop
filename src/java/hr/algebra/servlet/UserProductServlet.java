@@ -182,7 +182,8 @@ public class UserProductServlet extends HttpServlet {
             }
 
             request.setAttribute("cartItems_request", cartItems);
-            request.setAttribute("totalPrice", new BigDecimal(totalPrice));
+            //request.setAttribute("totalPrice", new BigDecimal(totalPrice));
+            session.setAttribute("totalPrice", new BigDecimal(totalPrice));
 
         }
 
@@ -229,27 +230,25 @@ public class UserProductServlet extends HttpServlet {
         int idProduct = Integer.parseInt(request.getParameter("id"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-        
-        HttpSession session=request.getSession();
-        
+        HttpSession session = request.getSession();
+
         try {
 
-            
             List<CartItem> cartItems = (List<CartItem>) session.getAttribute("productsInCart_session");
 
             for (CartItem cartItem : cartItems) {
-                
-                if (cartItem.getProduct().getIdProduct()==idProduct) {
-                    
+
+                if (cartItem.getProduct().getIdProduct() == idProduct) {
+
                     cartItems.remove(cartItem);
-                    CartItem item=new CartItem(quantity, cartItem.getProduct());
+                    CartItem item = new CartItem(quantity, cartItem.getProduct());
                     cartItems.add(item);
                     break;
                 }
             }
-            
+
             request.setAttribute("cartItems_request", cartItems);
-            
+
             RequestDispatcher rd = request.getRequestDispatcher("showCart");
             rd.forward(request, response);
         } catch (ServletException ex) {
