@@ -99,14 +99,18 @@ public class CheckoutServlet extends HttpServlet {
         BigDecimal totalPrice = (BigDecimal) session.getAttribute("totalPrice");
         String paymentMethod="Pouzece";
         
+        
         Order order= new Order(user, LocalDate.now(), totalPrice, paymentMethod, cartItems);
         
+       
+        //provjera kod usera !!!!! TODO
         int idOrder=orderRepo.insertOrder(order);
         
         for (CartItem cartItem : cartItems) {
             try {
                 orderRepo.insertIntoOrderDetails(idOrder, cartItem);
-               
+                cartItems=null;
+                session.setAttribute("productsInCart_session", cartItems);
                         
                 
             } catch (SQLException ex) {

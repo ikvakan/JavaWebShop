@@ -33,7 +33,7 @@
                             <a class="nav-link " aria-current="page" href="<%=request.getContextPath()%>/Product">Proizvodi</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">Narudžbe</a>
+                            <a class="nav-link " href="<%=request.getContextPath()%>/showOrders">Narudžbe</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link " href="<%=request.getContextPath()%>/Users">Korisnici</a>

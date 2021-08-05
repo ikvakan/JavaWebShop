@@ -36,7 +36,7 @@
                     <div class="col-sm-3">
                         <select class="form-select"  name="category" for="category" >
                             <c:forEach items="${categories}" var="category">
-                                <option id="category" value="${category.idCategory}">${category.name}</option>
+                                <option id="category" value="${category.idCategory}" ${category.idCategory==selectedCategory ? 'selected':''} >${category.name}</option>
                             </c:forEach>
                         </select>
                     </div>

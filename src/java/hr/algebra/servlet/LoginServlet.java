@@ -9,7 +9,6 @@ import hr.algebra.dal.interfaces.UserRepository;
 import hr.algebra.dal.repository.UserRepositoryImpl;
 import hr.algebra.model.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -26,62 +25,52 @@ import javax.servlet.http.HttpSession;
 public class LoginServlet extends HttpServlet {
 
     UserRepository<User> users;
-    
+
     public LoginServlet() {
-        users=new UserRepositoryImpl();
+        users = new UserRepositoryImpl();
     }
 
- 
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
-        
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
         HttpSession session = request.getSession();
-               
-        User newUser= new User();
-        
+
+        User newUser = new User();
+
         try {
             for (User user : users.getEntity()) {
-                
+
                 if (user.getUserName().equals(username) && user.getPassword().equals(password)) {
-                    newUser=user;
+                    newUser = user;
+                    session.setAttribute("user", newUser);
+
                     break;
                 }
-                else {
-                    response.sendRedirect("userLoginError.jsp");
-                    
-                }
-                       
+
             }
             
-            session.setAttribute("user", newUser);
-            RequestDispatcher rd=request.getRequestDispatcher("/home.jsp");
+            if (session.getAttribute("user")==null) {
+                response.sendRedirect("userLoginError.jsp");
+            }
+
+            RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");
             rd.forward(request, response);
-            
-            
+
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-               
-        
-        
-        
-    }
 
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
 
-        
-        
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

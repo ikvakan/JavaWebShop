@@ -19,6 +19,7 @@
         crossorigin="anonymous"></script>
         <link href="Resources/Css/navbar.css" rel="stylesheet" type="text/css"/>
 
+
         <title>Shopping app</title>
     </head>
     <body>
@@ -45,16 +46,19 @@
                         <li class="nav-item">
                             <a class="nav-link " href="MyOrders">Moje kupnje</a>
                         </li>
-                        <li class="nav-item dropdown ">
+
+                        <li class="nav-item dropdown dropdown-left-manual " id="navbarNavDropdown" >
                             <a class="nav-link  dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Login
                             </a>
-                            <ul class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="loginForm.jsp">Login</a></li>
-                                <li><a class="dropdown-item" href="registerForm.jsp">Registracija</a></li>
-                                <li><a class="dropdown-item" href="<%=request.getContextPath()%>/Admin/homeAdmin.jsp">Za admnistratore</a></li>
-                                <li><a class="dropdown-item" href="Logout">Logout</a></li>
-                            </ul>
+                            
+                                <ul class="dropdown-menu  dropdown-left-manual" style="right: 0; left: auto;" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="loginForm.jsp">Login</a></li>
+                                    <li><a class="dropdown-item" href="registerForm.jsp">Registracija</a></li>
+                                    <li><a class="dropdown-item" href="<%=request.getContextPath()%>/Admin/homeAdmin.jsp">Za admnistratore</a></li>
+                                    <li><a class="dropdown-item" href="Logout">Logout</a></li>
+                                </ul>
+                           
                         </li>
 
                     </ul>

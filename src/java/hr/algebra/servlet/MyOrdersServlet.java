@@ -9,11 +9,11 @@ import hr.algebra.dal.repository.dao.OrderDAO;
 import hr.algebra.model.Order;
 import hr.algebra.model.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +41,14 @@ public class MyOrdersServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         
         try {
+            //todo
             List<Order> orders = ordersRepo.getOrdersByUserId(user.getIdUser());
             
             request.setAttribute("orders", orders);
+            RequestDispatcher rd=request.getRequestDispatcher("/User/myOrders.jsp");
+            rd.forward(request, response);
+            
+                    
             
             
         } catch (SQLException ex) {

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : myOrders
-    Created on : 01.08.2021., 20:20:02
+    Document   : ordersAdmin
+    Created on : 03.08.2021., 14:39:20
     Author     : IgorKvakan
 --%>
 
@@ -12,23 +12,60 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-              rel="stylesheet" 
-              crossorigin="anonymous"/>
+
         <title>JSP Page</title>
     </head>
     <body>
-        <%@include file="../Shared/navigationUser.jsp" %>
+        <%@include file="../Shared/navigationAdmin.jsp" %>
+        <div class="row ">
+            <h1 class="text-center" style='margin-top: 70px;'>Narudžbe</h1>
+        </div>
+        <hr>
 
-        <div class="container">
-            <div class="row ">
-                <h1 class="text-center" style='margin-top: 70px;'>Moja košarica</h1>
-            </div>
-            <hr>
-
+        <c:choose>
+            <c:when test="${not empty users}">
+                <div class="container">
+                    <form method="post" action="<%=request.getContextPath()%>/showOrderByUser">
+                        <div class="row ">
+                            <div class="col-sm-3">
+                                <select class="form-select"  name="users" for="users" >
+                                    <c:forEach items="${users}" var="user">
+                                        <option id="users" value="${user.idUser}" ${user.idUser==selectedUserId ? 'selected':''}>${user.fullName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="submit" class="btn btn-primary" value="Odaberi kupca"/>
+                            </div>
+                    </form>
+               
+                </c:when>
+                <c:otherwise>
+                    <div>
+                        <h1 class="text-center text-danger">Nema registriranih korisnika</h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <c:choose>
                 <c:when test="${not empty orders}">
-
+                    <form method="post" action="<%=request.getContextPath()%>/showOrdersByDate">
+                    <div class="row" style="margin-top: 30px;">
+                        <div class="col-sm-3">
+                            <select class="form-select"  name="buyDate" for="date" >
+                               
+                                <c:forEach items="${orderDates}" var="date">
+                                    <fmt:parseDate value="${date}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+                                    <option id="date" value="${date}" ${date==selectedDate ? 'selected':''}  >
+                                        <fmt:formatDate pattern="dd.MM.yyyy." value="${parsedDate}" type="date"/>
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="submit" class="btn btn-primary" value="Odaberi datum"/>
+                        </div>
+                    </div>
+                    </form>
                     <c:forEach items="${orders}" var="order">
 
                         <div class="row" style="margin: 30px;">
@@ -65,7 +102,7 @@
                                         <td><b>UKUPNA CIJENA: <span class="text-danger" >${order.totalPrice} kn</span></b></td>
                                     </tr>
                                 </table>
-                                   
+
                             </fieldset>
 
                         </div>
@@ -74,15 +111,10 @@
 
                 </c:when>
                 <c:otherwise>
-                    <div>
-                        <h1 class="text-center text-danger">Nema proizvoda u košarici</h1>
-                    </div>
+
                 </c:otherwise>
             </c:choose>
-
         </div>
-
-
-
-    </body>
+    </div>
+</body>
 </html>

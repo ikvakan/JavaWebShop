@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -111,7 +112,7 @@ public class OrderDAO {
                     Order order= new Order();
                     order.setIdOrder(rs.getInt(ID_ORDER));
                     order.setBuyDate(rs.getDate(BUY_DATE).toLocalDate());
-                    order.setTotalPrice(rs.getBigDecimal(TOTAL_PRICE));
+                    order.setTotalPrice(rs.getBigDecimal(TOTAL_PRICE).setScale(2,RoundingMode.HALF_UP));
                     order.setPaymentMethod(rs.getString(PAYMENT_METHOD));
                     orders.add(order);
                     
@@ -143,11 +144,11 @@ public class OrderDAO {
                 while (rs.next()) {
                     cartItems.add(new CartItem(
                             rs.getInt(PRODUCT_QUANTITY),
-                            rs.getBigDecimal(PRODUCT_TOTAL_PRICE),
+                            rs.getBigDecimal(PRODUCT_TOTAL_PRICE).setScale(2,RoundingMode.HALF_UP),
                             new Product(
                                     rs.getInt(ID_PRODUCT),
                                     rs.getString(PRODUCT_NAME),
-                                    rs.getBigDecimal(PRODUCT_PRICE),
+                                    rs.getBigDecimal(PRODUCT_PRICE).setScale(2,RoundingMode.HALF_UP),
                                     rs.getString(PRODUCT_DESCRIPTION),
                                     categoryRepo.getEntityById(rs.getInt(CATEGORY_ID)))));
                     
@@ -163,4 +164,21 @@ public class OrderDAO {
 
      }
 
+     public List<Order> getOrdersForUserByDate(int userId,LocalDate date) throws SQLException{
+         
+         List<Order> orders=getOrdersByUserId(userId);
+         List<Order> filteredOrdersByDate=new ArrayList<>();
+         
+         for (Order order : orders) {
+             if (order.getBuyDate().equals(date)) {
+                 
+                 filteredOrdersByDate.add(order);
+                 
+             }
+         }
+         
+         return filteredOrdersByDate;
+     }
+     
+    
 }

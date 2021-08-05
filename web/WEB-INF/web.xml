@@ -50,6 +50,10 @@
         <servlet-name>MyOrdersServlet</servlet-name>
         <servlet-class>hr.algebra.servlet.MyOrdersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrdersServlet</servlet-name>
+        <servlet-class>hr.algebra.servlet.Orders</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
@@ -86,6 +90,10 @@
         <servlet-name>MyOrdersServlet</servlet-name>
         <url-pattern>/MyOrders</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrdersServlet</servlet-name>
+        <url-pattern>/Orders</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -106,6 +114,10 @@
             <url-pattern>/updateCategory</url-pattern>
             <url-pattern>/listCategory</url-pattern>
             <url-pattern>/showEditCategory</url-pattern>
+            <url-pattern>/showOrders</url-pattern>
+            <url-pattern>/showOrderByUser</url-pattern>
+            <url-pattern>/showOrdersByDate</url-pattern>
+
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>

@@ -26,6 +26,7 @@ public class User implements Serializable{
     private String city;
     private LocalDate regDate;
     private String ipAdress;
+    private String fullName;
     //private boolean isAdmin;
 
     public User() {
@@ -138,7 +139,12 @@ public class User implements Serializable{
         this.ipAdress = ipAdress;
     }
 
+    public String getFullName() {
+        this.fullName=this.name + " " + this.surname;
+        return fullName;
+    }
 
+   
 
 
 }

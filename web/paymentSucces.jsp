@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Succes</h1>
+         <%@include file="../Shared/navigationUser.jsp" %>
+         <h1 style="margin-top: 100px;" class="text-center text-success">KUPNJA USPJEŠNO OBAVLJENA</h1>
     </body>
 </html>

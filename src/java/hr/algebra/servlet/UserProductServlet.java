@@ -105,9 +105,12 @@ public class UserProductServlet extends HttpServlet {
         try {
             List<Product> productByCategory = productRepo.getProductByCategory(categoryId);
             request.setAttribute("products", productByCategory);
-
+            
+            
             List<Category> categories = categoryRepo.getEntity();
             request.setAttribute("categories", categories);
+            
+            request.setAttribute("selectedCategory", categoryId);
 
             RequestDispatcher rd = request.getRequestDispatcher("/productsUser.jsp");
             rd.forward(request, response);
