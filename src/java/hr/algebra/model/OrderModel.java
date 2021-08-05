@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author IgorKvakan
  */
-public class Order implements Serializable{
+public class OrderModel implements Serializable{
     
     private static final long serialVersionUID = 5L;
     private int IdOrder;
@@ -26,12 +26,12 @@ public class Order implements Serializable{
     private String paymentMethod;
     private List<CartItem> cartItems;
 
-    public Order() {
+    public OrderModel() {
         user= new User();
         cartItems= new ArrayList<>();
     }
 
-    public Order(int IdOrder, User user, LocalDate buyDate, BigDecimal totalPrice, String paymentMethod, List<CartItem> cartItems) {
+    public OrderModel(int IdOrder, User user, LocalDate buyDate, BigDecimal totalPrice, String paymentMethod, List<CartItem> cartItems) {
         this.IdOrder = IdOrder;
         this.user = user;
         this.buyDate = buyDate;
@@ -40,7 +40,7 @@ public class Order implements Serializable{
         this.cartItems = cartItems;
     }
 
-    public Order(int IdOrder, LocalDate buyDate, BigDecimal totalPrice, String paymentMethod) {
+    public OrderModel(int IdOrder, LocalDate buyDate, BigDecimal totalPrice, String paymentMethod) {
         this.IdOrder = IdOrder;
         this.buyDate = buyDate;
         this.totalPrice = totalPrice;
@@ -49,7 +49,7 @@ public class Order implements Serializable{
 
     
 
-    public Order(User user, LocalDate buyDate, BigDecimal totalPrice, String paymentMethod, List<CartItem> cartItems) {
+    public OrderModel(User user, LocalDate buyDate, BigDecimal totalPrice, String paymentMethod, List<CartItem> cartItems) {
         this.user = user;
         this.buyDate = buyDate;
         this.totalPrice = totalPrice;

@@ -8,7 +8,7 @@ package hr.algebra.servlet;
 import hr.algebra.dal.interfaces.UserRepository;
 import hr.algebra.dal.repository.UserRepositoryImpl;
 import hr.algebra.dal.repository.dao.OrderDAO;
-import hr.algebra.model.Order;
+import hr.algebra.model.OrderModel;
 import hr.algebra.model.User;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -122,12 +122,12 @@ public class Orders extends HttpServlet {
         HttpSession session = request.getSession();
 
         try {
-            List<Order> orders = orderRepository.getOrdersByUserId(userId);
+            List<OrderModel> orders = orderRepository.getOrdersByUserId(userId);
             List<User> users = usersRepository.getEntity();
 
             Set<LocalDate> dates = new HashSet<LocalDate>();
 
-            for (Order order : orders) {
+            for (OrderModel order : orders) {
                 dates.add(order.getBuyDate());
             }
 
@@ -162,7 +162,7 @@ public class Orders extends HttpServlet {
             int userId = (int) session.getAttribute("selectedUserId");
 
             try {
-                List<Order> ordersByDate = orderRepository.getOrdersForUserByDate(userId, date);
+                List<OrderModel> ordersByDate = orderRepository.getOrdersForUserByDate(userId, date);
                 //List<Order> orders = orderRepository.getOrdersByUserId(userId);
                 //request.setAttribute("ordersByDate", ordersByDate);
                 request.setAttribute("orders", ordersByDate);

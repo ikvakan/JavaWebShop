@@ -11,6 +11,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
               rel="stylesheet" 
               crossorigin="anonymous"/>
@@ -74,20 +76,21 @@
                         </table>
                     </div>
 
-                
+
 
                     <div class="row form-group">
-                        
+
                         <div class="col-sm-1">
                             <span ><b>NAPLATA:</b> </span>
                         </div>
                         <div class="btn-group col-sm-4">
                             <div class="col">
-                              <!--  <input style="width: 250px; margin-right: 10px;"  type="submit" class="btn btn-success " value="Pouzeće"/> -->
+                                <!--  <input style="width: 250px; margin-right: 10px;"  type="submit" class="btn btn-success " value="Pouzeće"/> -->
                                 <a href="cashOnDelivery" style="width: 250px; margin-right: 10px;"   class="btn btn-success "  >Pouzeće</a>
-                            </div>
+                            </div> 
                             <div class="col">
-                                <input style="width: 250px;"  type="submit" class="btn btn-primary " value="Paypal"/>
+                                 <a href="payPal" style="width: 250px; margin-right: 10px;"   class="btn btn-primary "  >PayPal</a>
+                                <!--<input style="width: 250px;"  type="submit" class="btn btn-primary " value="Paypal"/>-->
                             </div>
                         </div>
                     </div>
@@ -101,6 +104,18 @@
             </c:choose>
 
         </div>
+
+
+
+        <script
+            src="https://www.paypal.com/sdk/js?client-id=AU6RbH5QNSomcL_iuFhJFsQfKRqJd3-lvy0KawoAV6CyS_n8ZCuzMEeFwYXdDtpBTrFyq42LTgaSfdsJ&disable-funding=credit,card"> // 
+        </script>
+
+        <script>
+            paypal.Buttons().render('#paypal-button-container');
+            // This function displays Smart Payment Buttons on your web page.
+        </script>
+
 
     </body>
 </html>

@@ -12,6 +12,7 @@
         <url-pattern>/User/*</url-pattern>
         <url-pattern>/Checkout</url-pattern>
         <url-pattern>/cashOnDelivery</url-pattern>
+        <url-pattern>/payPal</url-pattern>
         <url-pattern>/MyOrders</url-pattern>
     </filter-mapping>
     <servlet>

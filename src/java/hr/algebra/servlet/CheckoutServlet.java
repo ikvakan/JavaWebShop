@@ -5,10 +5,12 @@
  */
 package hr.algebra.servlet;
 
+import com.paypal.base.rest.PayPalRESTException;
 import hr.algebra.dal.repository.dao.OrderDAO;
 import hr.algebra.model.CartItem;
-import hr.algebra.model.Order;
+import hr.algebra.model.OrderModel;
 import hr.algebra.model.User;
+import hr.algebra.services.payment.PaymentServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -29,7 +31,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author IgorKvakan
  */
-@WebServlet(urlPatterns = {"/cashOnDelivery"})
+@WebServlet(urlPatterns = {"/cashOnDelivery","/payPal"})
 public class CheckoutServlet extends HttpServlet {
 
     OrderDAO orderRepo;
@@ -46,6 +48,9 @@ public class CheckoutServlet extends HttpServlet {
         switch (action) {
             case "/cashOnDelivery":
                 cashOnDelivery(request, response);
+                break;
+            case "/payPal":
+                payPal(request,response);
                 break;
         }
 
@@ -100,7 +105,7 @@ public class CheckoutServlet extends HttpServlet {
         String paymentMethod="Pouzece";
         
         
-        Order order= new Order(user, LocalDate.now(), totalPrice, paymentMethod, cartItems);
+        OrderModel order= new OrderModel(user, LocalDate.now(), totalPrice, paymentMethod, cartItems);
         
        
         //provjera kod usera !!!!! TODO
@@ -129,6 +134,53 @@ public class CheckoutServlet extends HttpServlet {
             Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
        
+        
+    }
+
+    private void payPal(HttpServletRequest request, HttpServletResponse response) {
+        
+         HttpSession session = request.getSession();
+
+        User user = (User) session.getAttribute("user");
+        List<CartItem> cartItems = (List<CartItem>) session.getAttribute("productsInCart_session");
+        BigDecimal totalPrice = (BigDecimal) session.getAttribute("totalPrice");
+        String paymentMethod="PayPal";
+        
+        
+        OrderModel order= new OrderModel(user, LocalDate.now(), totalPrice, paymentMethod, cartItems);
+        
+        PaymentServices paymentServices= new PaymentServices();
+        
+        String errorPath="http://localhost:8084/JavaShoppingApp/paymentError.jsp";
+        String successPath="http://localhost:8084/JavaShoppingApp/paymentSucces.jsp";
+        
+        try {
+            String approvalLink=paymentServices.authorizePayment(order, errorPath,successPath);
+            
+            response.sendRedirect(approvalLink);
+            
+            int idOrder=orderRepo.insertOrder(order);
+            
+            for (CartItem cartItem : cartItems) {
+            
+                orderRepo.insertIntoOrderDetails(idOrder, cartItem);
+                cartItems=null;
+                session.setAttribute("productsInCart_session", cartItems);
+                        
+                
+        }
+
+            
+            
+        } catch (PayPalRESTException ex) {
+            Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+        
         
     }
 

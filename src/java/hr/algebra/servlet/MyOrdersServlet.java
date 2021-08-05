@@ -6,7 +6,7 @@
 package hr.algebra.servlet;
 
 import hr.algebra.dal.repository.dao.OrderDAO;
-import hr.algebra.model.Order;
+import hr.algebra.model.OrderModel;
 import hr.algebra.model.User;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -42,7 +42,7 @@ public class MyOrdersServlet extends HttpServlet {
         
         try {
             //todo
-            List<Order> orders = ordersRepo.getOrdersByUserId(user.getIdUser());
+            List<OrderModel> orders = ordersRepo.getOrdersByUserId(user.getIdUser());
             
             request.setAttribute("orders", orders);
             RequestDispatcher rd=request.getRequestDispatcher("/User/myOrders.jsp");

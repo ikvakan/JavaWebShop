@@ -10,7 +10,7 @@ import hr.algebra.dal.repository.CategoryRepositoryImpl;
 import hr.algebra.dal.sql.DataSourceSingleton;
 import hr.algebra.model.CartItem;
 import hr.algebra.model.Category;
-import hr.algebra.model.Order;
+import hr.algebra.model.OrderModel;
 import hr.algebra.model.Product;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -61,7 +61,7 @@ public class OrderDAO {
     private static final String SELECT_ORDERS_BY_USER_ID = "{ CALL getOrdersByUserId (?) }";
     private static final String SELECT_CART_ITEMS_BY_ORDER_ID="{ CALL getCartItemsByOrderID (?)}";
 
-    public int insertOrder(Order order)   {
+    public int insertOrder(OrderModel order)   {
 
         DataSource dataSource = DataSourceSingleton.getInstance();
         try (Connection con = dataSource.getConnection();
@@ -99,9 +99,9 @@ public class OrderDAO {
         }
     }
 
-    public List<Order> getOrdersByUserId(int id) throws SQLException {
+    public List<OrderModel> getOrdersByUserId(int id) throws SQLException {
         DataSource dataSource = DataSourceSingleton.getInstance();
-        List<Order> orders = new ArrayList<>();
+        List<OrderModel> orders = new ArrayList<>();
 
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(SELECT_ORDERS_BY_USER_ID)) {
@@ -109,7 +109,7 @@ public class OrderDAO {
             try (ResultSet rs = stmt.executeQuery()) {
 
                 while (rs.next()) {
-                    Order order= new Order();
+                    OrderModel order= new OrderModel();
                     order.setIdOrder(rs.getInt(ID_ORDER));
                     order.setBuyDate(rs.getDate(BUY_DATE).toLocalDate());
                     order.setTotalPrice(rs.getBigDecimal(TOTAL_PRICE).setScale(2,RoundingMode.HALF_UP));
@@ -123,7 +123,7 @@ public class OrderDAO {
         }
 
         
-        for (Order order : orders) {
+        for (OrderModel order : orders) {
             
             order.setCartItems(getCartItemsByOrderID(order.getIdOrder()));
         }
@@ -164,12 +164,12 @@ public class OrderDAO {
 
      }
 
-     public List<Order> getOrdersForUserByDate(int userId,LocalDate date) throws SQLException{
+     public List<OrderModel> getOrdersForUserByDate(int userId,LocalDate date) throws SQLException{
          
-         List<Order> orders=getOrdersByUserId(userId);
-         List<Order> filteredOrdersByDate=new ArrayList<>();
+         List<OrderModel> orders=getOrdersByUserId(userId);
+         List<OrderModel> filteredOrdersByDate=new ArrayList<>();
          
-         for (Order order : orders) {
+         for (OrderModel order : orders) {
              if (order.getBuyDate().equals(date)) {
                  
                  filteredOrdersByDate.add(order);

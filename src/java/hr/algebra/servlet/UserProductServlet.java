@@ -124,6 +124,7 @@ public class UserProductServlet extends HttpServlet {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         int idProduct = Integer.parseInt(request.getParameter("id"));
 
+        
         HttpSession session = request.getSession();
 
         try {
